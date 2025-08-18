@@ -24,7 +24,9 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
  C:/Users/Nelson\ Lima/STM32Cube/Repository/STM32Cube_FW_F4_V1.28.2/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_flash_ramfunc.h \
  C:/Users/Nelson\ Lima/STM32Cube/Repository/STM32Cube_FW_F4_V1.28.2/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr.h \
  C:/Users/Nelson\ Lima/STM32Cube/Repository/STM32Cube_FW_F4_V1.28.2/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr_ex.h \
- ../Core/Inc/gpio.h ../Core/Inc/main.h
+ C:/Users/Nelson\ Lima/STM32Cube/Repository/STM32Cube_FW_F4_V1.28.2/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_spi.h \
+ ../Core/Inc/dma.h ../Core/Inc/main.h ../Core/Inc/spi.h \
+ ../Core/Inc/gpio.h ../Core/Inc/usr/main_st7796.h
 ../Core/Inc/main.h:
 C:/Users/Nelson\ Lima/STM32Cube/Repository/STM32Cube_FW_F4_V1.28.2/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:
 ../Core/Inc/stm32f4xx_hal_conf.h:
@@ -51,5 +53,9 @@ C:/Users/Nelson\ Lima/STM32Cube/Repository/STM32Cube_FW_F4_V1.28.2/Drivers/STM32
 C:/Users/Nelson\ Lima/STM32Cube/Repository/STM32Cube_FW_F4_V1.28.2/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_flash_ramfunc.h:
 C:/Users/Nelson\ Lima/STM32Cube/Repository/STM32Cube_FW_F4_V1.28.2/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr.h:
 C:/Users/Nelson\ Lima/STM32Cube/Repository/STM32Cube_FW_F4_V1.28.2/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr_ex.h:
-../Core/Inc/gpio.h:
+C:/Users/Nelson\ Lima/STM32Cube/Repository/STM32Cube_FW_F4_V1.28.2/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_spi.h:
+../Core/Inc/dma.h:
 ../Core/Inc/main.h:
+../Core/Inc/spi.h:
+../Core/Inc/gpio.h:
+../Core/Inc/usr/main_st7796.h:

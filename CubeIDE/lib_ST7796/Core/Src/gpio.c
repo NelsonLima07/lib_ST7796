@@ -38,6 +38,11 @@
         * Output
         * EVENT_OUT
         * EXTI
+     PC9   ------> SDIO_D1
+     PC10   ------> SDIO_D2
+     PC11   ------> SDIO_D3
+     PC12   ------> SDIO_CK
+     PD2   ------> SDIO_CMD
 */
 void MX_GPIO_Init(void)
 {
@@ -45,18 +50,53 @@ void MX_GPIO_Init(void)
   GPIO_InitTypeDef GPIO_InitStruct = {0};
 
   /* GPIO Ports Clock Enable */
-  __HAL_RCC_GPIOB_CLK_ENABLE();
+  __HAL_RCC_GPIOC_CLK_ENABLE();
+  __HAL_RCC_GPIOH_CLK_ENABLE();
   __HAL_RCC_GPIOA_CLK_ENABLE();
+  __HAL_RCC_GPIOB_CLK_ENABLE();
+  __HAL_RCC_GPIOD_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(LED_PLACA_GPIO_Port, LED_PLACA_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOA, SPI_CS_Pin|SPI_DC_Pin|SPI_RST_Pin, GPIO_PIN_SET);
 
-  /*Configure GPIO pin : LED_PLACA_Pin */
-  GPIO_InitStruct.Pin = LED_PLACA_Pin;
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(PLACA_LED_GPIO_Port, PLACA_LED_Pin, GPIO_PIN_RESET);
+
+  /*Configure GPIO pin : PLACA_BTN_Pin */
+  GPIO_InitStruct.Pin = PLACA_BTN_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  HAL_GPIO_Init(PLACA_BTN_GPIO_Port, &GPIO_InitStruct);
+
+  /*Configure GPIO pins : SPI_CS_Pin SPI_DC_Pin SPI_RST_Pin */
+  GPIO_InitStruct.Pin = SPI_CS_Pin|SPI_DC_Pin|SPI_RST_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
+  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+
+  /*Configure GPIO pin : PLACA_LED_Pin */
+  GPIO_InitStruct.Pin = PLACA_LED_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(LED_PLACA_GPIO_Port, &GPIO_InitStruct);
+  HAL_GPIO_Init(PLACA_LED_GPIO_Port, &GPIO_InitStruct);
+
+  /*Configure GPIO pins : PC9 PC10 PC11 PC12 */
+  GPIO_InitStruct.Pin = GPIO_PIN_9|GPIO_PIN_10|GPIO_PIN_11|GPIO_PIN_12;
+  GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
+  GPIO_InitStruct.Alternate = GPIO_AF12_SDIO;
+  HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
+
+  /*Configure GPIO pin : PD2 */
+  GPIO_InitStruct.Pin = GPIO_PIN_2;
+  GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
+  GPIO_InitStruct.Alternate = GPIO_AF12_SDIO;
+  HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
 
 }
 
