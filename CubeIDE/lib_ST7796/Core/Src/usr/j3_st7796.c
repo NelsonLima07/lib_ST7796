@@ -202,7 +202,7 @@ void j3_ST7796_drawBitmap(TDisplayST7796 *_display, uint16_t _x, uint16_t _y, ui
       }
 
       if(contBuffer >= 65535){
-	  ST7796_SendDataDMA(_display, contBuffer);
+	  ST7796_SendDataDMA(_display, contBuffer+1);
 	  while(_display->dmaBusy);
 	  flagEnviouDMA = true;
 	  contBuffer = 0;
@@ -212,7 +212,7 @@ void j3_ST7796_drawBitmap(TDisplayST7796 *_display, uint16_t _x, uint16_t _y, ui
       contBitmap++;
   }
   if(!flagEnviouDMA){
-      ST7796_SendDataDMA(_display, contBuffer);
+      ST7796_SendDataDMA(_display, contBuffer + 1);
       while(_display->dmaBusy);
   }
 }

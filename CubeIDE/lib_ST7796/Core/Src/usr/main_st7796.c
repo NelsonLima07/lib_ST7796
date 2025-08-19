@@ -77,6 +77,7 @@ static void bola_movimento(TBall *_bola)
 
 void main_st7796()
 {
+  uint32_t tempoGame_lastTick, nowTick;
 
   display = j3_ST7796_new(&hspi1, true);
   j3_ST7796_init(display);
@@ -130,21 +131,29 @@ void main_st7796()
       }
   }
 
+  tempoGame_lastTick = 0;
   while(1){
       //j3_ST7796_fillWindow(display, 0, 150, 419, 249, display->backgroundCor);
+      nowTick = HAL_GetTick();
 
-      for(uint8_t i = 0; i < 5; i++){
-          if(blocos[i].vivo){
-    	  j3_ST7796_drawBloc(display, blocos[i].pBloc, blocos[i].posX, blocos[i].posY);
-          }
+      if( (nowTick - tempoGame_lastTick) > 50) {
+
+	  if((bola.posY >= 190) && (bola.posY <= 220) ){
+	      for(uint8_t i = 0; i < 5; i++){
+		  if(blocos[i].vivo){
+		      j3_ST7796_redrawBloc(display, blocos[i].pBloc, blocos[i].posX, blocos[i].posY);
+		  }
+	      }
+	  }
+
+
+	  j3_ST7796_eraseTile(display, bola.tile, bola.posX, bola.posY);
+	  bola_movimento(&bola);
+	  j3_ST7796_drawTile(display, bola.tile, bola.posX, bola.posY);
+
+	  tempoGame_lastTick += 50;
       }
 
-      j3_ST7796_fillWindow(display, bola.posX, bola.posY, bola.posX+8-1, bola.posY+8-1,  display->backgroundCor);
-      bola_movimento(&bola);
-      j3_ST7796_drawTile(display, bola.tile, bola.posX, bola.posY);
-
-
-      HAL_Delay(100);
   }
 
 }

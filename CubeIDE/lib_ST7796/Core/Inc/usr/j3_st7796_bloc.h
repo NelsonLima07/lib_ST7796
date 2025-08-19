@@ -21,5 +21,7 @@ typedef struct TJ3_Bloc TJ3_Bloc;
 
 
 void j3_ST7796_drawBloc(TDisplayST7796 *_display, const TJ3_Bloc *_bloc, uint16_t x, uint16_t y);
+void j3_ST7796_eraseBloc(TDisplayST7796 *_display, const TJ3_Bloc *_bloc, uint16_t x, uint16_t y);
+void j3_ST7796_redrawBloc(TDisplayST7796 *_display, const TJ3_Bloc *_bloc, uint16_t x, uint16_t y);
 
 #endif /* INC_USR_J3_ST7796_BLOC_H_ */

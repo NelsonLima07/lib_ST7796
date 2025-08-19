@@ -29,7 +29,7 @@
 
 
 #define TAM_TELA 480 * 320    // 153600 Pixels
-#define TAM_BUFFER 0xFFFF * 2 // 131070 => 127Kbytes
+#define TAM_BUFFER 65535 * 2 // 131070 => 127Kbytes
 
 struct TDisplayST7796{
 	SPI_HandleTypeDef *spi;
