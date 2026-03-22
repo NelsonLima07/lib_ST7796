@@ -75,6 +75,22 @@ static void bola_movimento(TBall *_bola)
   }
 }
 
+
+/*
+ static uint32_t lerAD_PA0(void){
+  HAL_ADC_Start(&hadc1);
+  HAL_ADC_PollForConversion(&hadc1, HAL_MAX_DELAY);
+  uint32_t value = HAL_ADC_GetValue(&hadc1);
+  return value;
+}
+*/
+
+static int8_t calcPosicaoPlay1(uint32_t _valAD){
+
+  return 0;
+
+}
+
 void main_st7796()
 {
   uint32_t tempoGame_lastTick, nowTick;
@@ -133,7 +149,7 @@ void main_st7796()
 
   tempoGame_lastTick = 0;
   while(1){
-      //j3_ST7796_fillWindow(display, 0, 150, 419, 249, display->backgroundCor);
+
       nowTick = HAL_GetTick();
 
       if( (nowTick - tempoGame_lastTick) > 50) {
