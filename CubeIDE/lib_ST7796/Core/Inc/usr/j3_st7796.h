@@ -11,8 +11,10 @@
 #include <stdint.h>
 #include <stdbool.h>
 
+#include "j3_buffer.h"
 #include "stm32f4xx_hal.h"
 
+#include "/usr/j3_buffer.h"
 
 // Definições de pinos para o display (ajuste conforme sua conexão)
 #define ST7796_RST_Pin GPIO_PIN_3
@@ -39,7 +41,8 @@ struct TDisplayST7796{
 	bool temTranparencia;
 	uint16_t transparenciaCor;
 	uint16_t backgroundCor;
-
+	TJ3BufferManager *bufferManager;
+	bool bufferManagerAtivo;
 };
 typedef struct TDisplayST7796 TDisplayST7796;
 
@@ -51,6 +54,8 @@ void j3_ST7796_setRotation(TDisplayST7796 *_display, uint8_t _rotation);
 void j3_ST7796_setTransparencia(TDisplayST7796 *_display, uint16_t _cor);
 void j3_ST7796_setNoTransparencia(TDisplayST7796 *_display);
 void j3_ST7796_setBackground(TDisplayST7796 *_display, uint16_t _cor);
+void j3_ST7796_setBufferManager(TDisplayST7796 *_display, TJ3BufferManager *_bufferManager);
+
 
 
 void j3_ST7796_drawPixel(TDisplayST7796 *_display, uint16_t x, uint16_t y, uint16_t color);

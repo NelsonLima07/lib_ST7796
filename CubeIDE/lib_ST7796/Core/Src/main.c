@@ -26,7 +26,7 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 
-#include "usr/main_st7796.h";
+#include "usr/main_st7796.h"
 
 /* USER CODE END Includes */
 

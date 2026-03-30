@@ -330,5 +330,7 @@ void j3_ST7796_fillWindow(TDisplayST7796 *_display, uint16_t x1, uint16_t y1, ui
 }
 
 
-
-
+void j3_ST7796_setBufferManager(TDisplayST7796 *_display, TJ3BufferManager *_bufferManager){
+  _display->bufferManager = *_bufferManager;
+  _display->bufferManagerAtivo = true;
+}

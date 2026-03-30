@@ -45,6 +45,11 @@ target_link_directories(${CMAKE_PROJECT_NAME} PRIVATE
 # Add sources to executable
 target_sources(${CMAKE_PROJECT_NAME} PRIVATE
     # Add user sources here
+    "Core/Src//usr/main_st7796.c"
+    "Core/Src//usr/j3_st7796_bloc.c"
+    "Core/Src//usr/j3_st7796_tile.c"
+    "Core/Src//usr/j3_st7796.c"
+    "Core/Src//usr/j3_tiles.c"
 )
 
 # Add include paths
