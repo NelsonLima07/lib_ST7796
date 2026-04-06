@@ -42,6 +42,9 @@ target_link_directories(${CMAKE_PROJECT_NAME} PRIVATE
     # Add user defined library search paths
 )
 
+# Manda o CMake procurar todos os arquivos .c dentro da pasta usr
+file(GLOB_RECURSE MEUS_ARQUIVOS_USR "Core/Src/usr/*.c")
+
 # Add sources to executable
 target_sources(${CMAKE_PROJECT_NAME} PRIVATE
     # Add user sources here
@@ -50,6 +53,8 @@ target_sources(${CMAKE_PROJECT_NAME} PRIVATE
     "Core/Src//usr/j3_st7796_tile.c"
     "Core/Src//usr/j3_st7796.c"
     "Core/Src//usr/j3_tiles.c"
+    "Core/Src//usr/j3_buffer.c"
+    ${MEUS_ARQUIVOS_USR}
 )
 
 # Add include paths

@@ -9,12 +9,12 @@
 #define INC_USR_J3_TILES_H_
 
 #include <stdint.h>
+#include "usr/j3_st7796_tile.h"
 
-#define TILE_WIDTH  8
-#define TILE_HEIGHT 8
 
 extern const uint16_t bola_azul_8x8[TILE_WIDTH * TILE_HEIGHT];
 extern const uint16_t bloco_azul_8x8[TILE_WIDTH * TILE_HEIGHT];
+extern const uint16_t bloco_vermelho_8x8[TILE_WIDTH * TILE_HEIGHT];
 
 
 

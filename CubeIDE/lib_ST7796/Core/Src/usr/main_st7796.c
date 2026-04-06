@@ -5,6 +5,7 @@
  *      Author: Nelson Lima
  */
 #include <stdbool.h>
+#include <stdint.h>
 
 #include "usr/main_st7796.h"
 #include "usr/j3_st7796.h"
@@ -12,9 +13,13 @@
 #include "usr/j3_tiles.h"
 #include "usr/j3_st7796_tile.h"
 #include "usr/j3_st7796_bloc.h"
+#include "usr/j3_buffer.h"
 
 
-#define QTD_BLOCOS 112 // 14 Colunas x 8 Linhas;
+
+#define QTD_BLOCOS_LINHA 14 // 14 Colunas  Formam uma linha de blocos;
+#define QTD_BLOCOS_COLUNA 8 // 8 Linhas  Formam uma linha de blocos;
+#define QTD_BLOCOS QTD_BLOCOS_LINHA * QTD_BLOCOS_COLUNA //112 blocos formam a tela
 #define ESPACAMENTO_BLOCOS 5 // 5 pixels;
 #define QTD_TILES_BLOCO_H 4 // 4 TILES Formam um bloco na Horizontal;
 #define QTD_TILES_BLOCO_V 2 // 2 TILES Formam um bloco na Vertical;
@@ -22,7 +27,12 @@
 
 
 extern SPI_HandleTypeDef hspi1;
-TDisplayST7796 *display;
+
+TDisplayST7796 meuDisplay;
+TDisplayST7796 *display = &meuDisplay;
+
+TJ3BufferManager bufferManager;
+TJ3BufferManager *pBufferManager = &bufferManager;
 
 
 struct TBall{
@@ -43,7 +53,15 @@ struct TGameBloco{
 };
 typedef struct TGameBloco TGameBloco;
 
-TGameBloco blocos[QTD_BLOCOS];
+TGameBloco blocoLinha1[QTD_BLOCOS_LINHA];
+TGameBloco blocoLinha2[QTD_BLOCOS_LINHA];
+TGameBloco blocoLinha3[QTD_BLOCOS_LINHA];
+TGameBloco blocoLinha4[QTD_BLOCOS_LINHA];
+TGameBloco blocoLinha5[QTD_BLOCOS_LINHA];
+TGameBloco blocoLinha6[QTD_BLOCOS_LINHA];
+TGameBloco blocoLinha7[QTD_BLOCOS_LINHA];
+TGameBloco blocoLinha8[QTD_BLOCOS_LINHA];
+TGameBloco blocoLinha9[QTD_BLOCOS_LINHA];
 
 
 static void bola_movimento(TBall *_bola)
@@ -95,11 +113,25 @@ void main_st7796()
 {
   uint32_t tempoGame_lastTick, nowTick;
 
-  display = j3_ST7796_new(&hspi1, true);
-  j3_ST7796_init(display);
+  //display = j3_ST7796_new(&hspi1, true);
+  j3_ST7796_init(display, &hspi1);
+  j3_ST7796_setBufferManager(display, pBufferManager);
+  j3_ST7796_setBackground(display, 0xFF00);
+  j3_ST7796_setTransparencia(display, 0xFFFF);
+  j3_ST7796_fillBackground(display);
+
+  uint16_t corFundo = 0x0000; // Preto
+  while(1){
+
+
+    HAL_Delay(3000);
+    j3_ST7796_setBackground(display, corFundo);
+    j3_ST7796_fillBackground(display);
+
+    corFundo = corFundo += 0x000F;
+  }
 
   TBall bola;
-
   bola.tile = bola_azul_8x8;
   bola.posX = 50;
   bola.posY = 50;
@@ -113,62 +145,35 @@ void main_st7796()
   blocoAzul.sizeY = QTD_TILES_BLOCO_V;
 
   TJ3_Bloc blocoVermelho;
-  blocoAzul.pTile = bloco_azul_8x8;
+  blocoAzul.pTile = bloco_vermelho_8x8;
   blocoAzul.sizeX = 5;
   blocoAzul.sizeY = 2;
 
-  TJ3_Bloc blocoVerde;
-  blocoAzul.pTile = bloco_azul_8x8;
-  blocoAzul.sizeX = 4;
-  blocoAzul.sizeY = 2;
+  blocoLinha1[0].pBloc = &blocoAzul;
+
 
   for(uint8_t i = 0; i < 5; i++){
-      blocos[i].pBloc = &blocoAzul;
-      blocos[i].posX = ESPACAMENTO_BLOCOS + (i * TAM_BLOCO_H) + (i * ESPACAMENTO_BLOCOS);
-      blocos[i].posY = 200;
-      blocos[i].vivo = true;
-  }
-
-  j3_ST7796_fillBackground(display);
-  j3_ST7796_setTransparencia(display, 0x0000);
-
-  /*
-   *
-  HAL_Delay(2000);
-  j3_ST7796_fillScreenDMA(display, 0x0FF0);
-  HAL_Delay(2000);
-  j3_ST7796_fillBackground(display);
-   */
-
-  //j3_ST7796_drawTile(display, bola_azul_8x8, bola.posX, bola.posY);
-  for(uint8_t i = 0; i < 5; i++){
-      if(blocos[i].vivo){
-	  j3_ST7796_drawBloc(display, blocos[i].pBloc, blocos[i].posX, blocos[i].posY);
-      }
+    blocoLinha1[i].pBloc = &blocoVermelho;
+    blocoLinha1[i].vivo = true;
+    blocoLinha1[i].posX = (ESPACAMENTO_BLOCOS + TAM_BLOCO_H) * i;
+    blocoLinha1[i].posY = 20;
+     
+	  j3_ST7796_drawBloc(display, blocoLinha1[i].pBloc, blocoLinha1[i].posX, blocoLinha1[i].posY);
   }
 
   tempoGame_lastTick = 0;
   while(1){
 
-      nowTick = HAL_GetTick();
+    nowTick = HAL_GetTick();
 
-      if( (nowTick - tempoGame_lastTick) > 50) {
+    if( (nowTick - tempoGame_lastTick) > 50) {
 
-	  if((bola.posY >= 190) && (bola.posY <= 220) ){
-	      for(uint8_t i = 0; i < 5; i++){
-		  if(blocos[i].vivo){
-		      j3_ST7796_redrawBloc(display, blocos[i].pBloc, blocos[i].posX, blocos[i].posY);
-		  }
-	      }
-	  }
+	    j3_ST7796_eraseTile(display, bola.tile, bola.posX, bola.posY);
+	    bola_movimento(&bola);
+	    j3_ST7796_drawTile(display, bola.tile, bola.posX, bola.posY);
 
-
-	  j3_ST7796_eraseTile(display, bola.tile, bola.posX, bola.posY);
-	  bola_movimento(&bola);
-	  j3_ST7796_drawTile(display, bola.tile, bola.posX, bola.posY);
-
-	  tempoGame_lastTick += 50;
-      }
+	    tempoGame_lastTick += 50;
+    }
 
   }
 
@@ -177,7 +182,6 @@ void main_st7796()
 
 void HAL_SPI_TxCpltCallback(SPI_HandleTypeDef *hspi) {
   if (hspi->Instance == SPI1) {
-      HAL_GPIO_WritePin(ST7796_CS_GPIO_Port, ST7796_CS_Pin, GPIO_PIN_SET);   // CS = 1 para deselecionar
       display->dmaBusy = false;
       //HAL_GPIO_TogglePin(PLACA_LED_GPIO_Port,PLACA_LED_Pin);
   }

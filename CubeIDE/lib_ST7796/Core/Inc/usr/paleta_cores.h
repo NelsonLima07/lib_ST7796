@@ -1,0 +1,13 @@
+#ifndef INC_USR_PALETA_CORES_H_
+#define INC_USR_PALETA_CORES_H_
+
+
+#define COR_PRETO   0x0000
+#define COR_BRANCO  0xFFFF
+#define COR_VERMELHO 0xF800
+#define COR_VERDE   0x07E0
+#define COR_AZUL    0x001F
+#define COR_AMARELO 0xFFE0
+
+
+#endif /* INC_USR_PALETA_CORES_H_ */

@@ -1,7 +1,8 @@
-#include "j3_buffer.h"
+#include "usr/j3_buffer.h"
 
+uint8_t j3memBuffer[BUFFER_SIZE]; // Buffer de memória para armazenar os dados  
 
-void j3_buffer_init(TJ3BufferManager *manager)
+void j3_bufferManager_init(TJ3BufferManager *manager)
 {
     manager->windowCount = 0;
     manager->nextPointer = 0;
@@ -11,7 +12,7 @@ void j3_buffer_init(TJ3BufferManager *manager)
     }
 }
 
-bool j3_buffer_createWindow(TJ3BufferManager *manager, uint16_t x, uint16_t y, uint16_t width, uint16_t height)
+bool j3_bufferManager_addWindow(TJ3BufferManager *manager, uint16_t x, uint16_t y, uint16_t width, uint16_t height)
 {
     if (manager->windowCount >= MAX_WINDOW) {
         return false; // Não é possível criar mais janelas
@@ -22,11 +23,11 @@ bool j3_buffer_createWindow(TJ3BufferManager *manager, uint16_t x, uint16_t y, u
     window->y = y;
     window->width = width;
     window->height = height;
-    window->buffer = &j3memBuffer[manager->nextPointer]; // Atribuir o buffer para a janela
+    window->buffer = (uint16_t*) &j3memBuffer[manager->nextPointer]; // Atribuir o buffer para a janela
     window->isPaint = true; // Marcar a janela como ativa
 
     // Atualizar o ponteiro para a próxima posição disponível no buffer
-    manager->nextPointer += (width * height * sizeof(uint8_t)); // Supondo 8 bits por pixel
+    manager->nextPointer += (width * height * sizeof(uint16_t)); // Supondo 16 bits por pixel
     manager->windowCount++;
 
     return true; // Janela criada com sucesso

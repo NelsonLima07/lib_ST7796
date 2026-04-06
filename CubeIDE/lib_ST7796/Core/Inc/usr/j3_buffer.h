@@ -18,10 +18,11 @@
 #include <stdbool.h>
 #include <stdint.h>
 
-#define BUFFER_SIZE 1024 * 100 // 100KB de buffer
+//#define BUFFER_SIZE 1024 * 100 // 100KB de buffer
+#define BUFFER_SIZE 480 * 320  // 307200 bytes (480*320*2) de buffer
 #define MAX_WINDOW 10 
 
-uint8_t j3memBuffer[BUFFER_SIZE]; // Buffer de memória para armazenar os dados  
+extern uint8_t j3memBuffer[BUFFER_SIZE]; // Buffer de memória para armazenar os dados declarado no j3_buffer.c
 
 typedef struct TJ3WindowBuffer{
     uint16_t x;
@@ -39,8 +40,9 @@ typedef struct TJ3BufferManager{
 } TJ3BufferManager;
 
 
-void j3_buffer_init(TJ3BufferManager *manager);
-bool j3_buffer_createWindow(TJ3BufferManager *manager, uint16_t x, uint16_t y, uint16_t width, uint16_t height);
+void j3_bufferManager_init(TJ3BufferManager *manager);
+bool j3_bufferManager_addWindow(TJ3BufferManager *manager, uint16_t x, uint16_t y, uint16_t width, uint16_t height);
+void j3_bufferManager_clear(TJ3BufferManager *manager);
 
 
 //typedef struct 
